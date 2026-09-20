@@ -1,0 +1,222 @@
+:root {
+  --soil: #8a5a2b;
+  --leaf: #1f6f4a;
+  --leaf-dark: #17553a;
+  --cream: #faf7f2;
+  --ink: #2b2b2b;
+  --muted: #6b6b6b;
+  --line: #e3ddd3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+/* ---------- header ---------- */
+
+header {
+  background-color: var(--leaf);
+  color: white;
+}
+
+.header-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-left img {
+  width: 48px;
+  height: 48px;
+}
+
+.header-left h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  letter-spacing: 0.5px;
+}
+
+.header-right button {
+  background-color: white;
+  color: var(--leaf-dark);
+  border: none;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.header-right button:hover {
+  background-color: #eef5f1;
+}
+
+/* ---------- home page card grid ---------- */
+
+#main-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background-color: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.top-container {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--line);
+}
+
+.bottom-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.bottom-container h3 {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+}
+
+.bottom-container p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.bottom-container a[role="button"] {
+  margin-top: 14px;
+  align-self: flex-start;
+  background-color: var(--leaf);
+  color: white;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.bottom-container a[role="button"]:hover {
+  background-color: var(--leaf-dark);
+}
+
+/* ---------- gift detail page ---------- */
+
+.gift-info {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.image-container img {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.gift-details h2 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+}
+
+.gift-details p {
+  margin: 0 0 10px;
+}
+
+.gift-details #submittedBy,
+.gift-details #submittedOn {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+}
+
+.gift-details #pricePoint,
+.gift-details #audience {
+  display: inline-block;
+  background-color: #eef5f1;
+  color: var(--leaf-dark);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.gift-details #description {
+  margin-top: 18px;
+  line-height: 1.7;
+}
+
+/* ---------- 404 page ---------- */
+
+.not-found {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.not-found h2 {
+  font-size: 3rem;
+  margin: 0 0 8px;
+}
+
+.not-found a {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: var(--leaf);
+  color: white;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 10px 24px;
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .gift-info {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
