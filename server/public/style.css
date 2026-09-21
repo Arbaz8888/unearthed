@@ -8,21 +8,33 @@
   --line: #e3ddd3;
 }
 
-* {
-  box-sizing: border-box;
-}
+/* ---------- Pico theme ---------- */
 
-body {
-  margin: 0;
-  background-color: var(--cream);
-  color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+/* Pico (pico.min.css, loaded before this file) supplies the base typography,
+   buttons, and focus rings. Pointing its variables at the palette above brands
+   all of it at once. The selector mirrors Pico's own light-theme selector so
+   these declarations win on specificity. */
+[data-theme="light"],
+:root:not([data-theme="dark"]) {
+  --pico-font-size: 100%;
+  --pico-background-color: var(--cream);
+  --pico-color: var(--ink);
+  --pico-h1-color: var(--ink);
+  --pico-h2-color: var(--ink);
+  --pico-h3-color: var(--ink);
+  --pico-primary: var(--leaf);
+  --pico-primary-background: var(--leaf);
+  --pico-primary-border: var(--leaf);
+  --pico-primary-hover: var(--leaf-dark);
+  --pico-primary-hover-background: var(--leaf-dark);
+  --pico-primary-hover-border: var(--leaf-dark);
+  --pico-primary-focus: rgba(31, 111, 74, 0.35);
 }
 
 /* ---------- header ---------- */
 
-header {
+body > header {
+  padding-block: 0;
   background-color: var(--leaf);
   color: white;
 }
@@ -51,6 +63,7 @@ header {
 
 .header-left h1 {
   margin: 0;
+  color: white;
   font-size: 1.6rem;
   letter-spacing: 0.5px;
 }
@@ -63,7 +76,6 @@ header {
   padding: 10px 22px;
   font-size: 0.95rem;
   font-weight: 600;
-  cursor: pointer;
 }
 
 .header-right button:hover {
@@ -122,20 +134,14 @@ header {
   font-size: 0.9rem;
 }
 
+/* colors and hover come from Pico's [role="button"] styles */
 .bottom-container a[role="button"] {
   margin-top: 14px;
   align-self: flex-start;
-  background-color: var(--leaf);
-  color: white;
-  text-decoration: none;
   border-radius: 999px;
   padding: 8px 18px;
   font-size: 0.85rem;
   font-weight: 600;
-}
-
-.bottom-container a[role="button"]:hover {
-  background-color: var(--leaf-dark);
 }
 
 /* ---------- gift detail page ---------- */
@@ -203,12 +209,9 @@ header {
   margin: 0 0 8px;
 }
 
-.not-found a {
-  display: inline-block;
+/* colors and hover come from Pico's [role="button"] styles */
+.not-found a[role="button"] {
   margin-top: 20px;
-  background-color: var(--leaf);
-  color: white;
-  text-decoration: none;
   border-radius: 999px;
   padding: 10px 24px;
   font-weight: 600;
