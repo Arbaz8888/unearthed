@@ -2,13 +2,13 @@
 
 Submitted by: **Arbaz Attar**
 
-About this web app: **UnEarthed is a crowdsourced repo of great gift ideas for different kinds of people. Browse finds by audience and price point, then open any one of them for the full story — description, who submitted it, and when. Built with a Node/Express API serving the gift data and a vanilla HTML/CSS/JavaScript frontend bundled with Vite.**
+About this web app: **UnEarthed is a crowdsourced repo of great gift ideas for different kinds of people. Browse finds by audience and price point, then open any one of them for the full story - description, who submitted it, and when. Built with a Node/Express API serving the gift data and a vanilla HTML/CSS/JavaScript frontend bundled with Vite.**
 
-Time spent: **X** hours
+Time spent: **5** hours
 
 ## Required Features
 
-The following **required** functionality is completed:
+Functionality:
 
 <!-- Make sure to check off completed functionality below -->
 - [x] **The web app uses only HTML, CSS, and JavaScript without a frontend framework**
@@ -16,11 +16,8 @@ The following **required** functionality is completed:
 - [x] **The web app displays at least five unique list items, each with at least three displayed attributes (such as title, text, and image)**
 - [x] **The user can click on each item in the list to see a detailed view of it, including all database fields**
   - [x] **Each detail view should be a unique endpoint, such as as `localhost:3000/bosses/crystalguardian` and `localhost:3000/mantislords`**
-  - [ ] *Note: When showing this feature in the video walkthrough, please show the unique URL for each detailed view. We will not be able to give points if we cannot see the implementation*
 - [x] **The web app serves an appropriate 404 page when no matching route is defined**
 - [x] **The web app is styled using Picocss**
-
-The following **optional** features are implemented:
 
 - [x] The web app displays items in a unique format, such as cards rather than lists or animated list items
 
@@ -34,18 +31,7 @@ The following **additional** features are implemented:
 
 ## Video Walkthrough
 
-**Note: please be sure to show the unique URL of each detail view as you navigate to it — the grader needs to see the endpoint change in the address bar.**
-
-Here's a walkthrough of implemented required features:
-
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
-<!-- Replace this with whatever GIF tool you used! -->
-GIF created with ...  Add GIF tool here
-<!-- Recommended tools:
-[Kap](https://getkap.co/) for macOS
-[ScreenToGif](https://www.screentogif.com/) for Windows
-[peek](https://github.com/phw/peek) for Linux. -->
+https://github.com/user-attachments/assets/fca25e2a-85e7-493f-a607-8694b7a7ad75
 
 ## Notes
 
