@@ -1,10 +1,19 @@
-const renderGifts = async () => {
-  const response = await fetch('/gifts')
+const mainContent = document.getElementById('main-content')
+const searchForm = document.getElementById('search-form')
+const searchInput = document.getElementById('search-input')
+const searchStatus = document.getElementById('search-status')
+
+const renderGifts = async (search = '') => {
+  const url = search ? `/api/gifts?search=${encodeURIComponent(search)}` : '/api/gifts'
+  const response = await fetch(url)
   const data = await response.json()
 
-  const mainContent = document.getElementById('main-content')
+  mainContent.innerHTML = ''
 
-  if (data) {
+  if (response.ok && data.length > 0) {
+    const noun = data.length === 1 ? 'find' : 'finds'
+    searchStatus.textContent = search ? `${data.length} ${noun} for “${search}”` : `${data.length} ${noun}`
+
     data.map(gift => {
       const card = document.createElement('div')
       card.className = 'card'
@@ -40,11 +49,22 @@ const renderGifts = async () => {
       mainContent.appendChild(card)
     })
   } else {
+    searchStatus.textContent = ''
+
     const message = document.createElement('h2')
-    message.textContent = 'No Gifts Available 😞'
+    message.textContent = search ? `No gifts match “${search}” 😞` : 'No Gifts Available 😞'
     mainContent.appendChild(message)
   }
 }
+
+searchForm.addEventListener('submit', event => {
+  event.preventDefault()
+  renderGifts(searchInput.value.trim())
+})
+
+searchInput.addEventListener('input', () => {
+  if (searchInput.value.trim() === '') renderGifts()
+})
 
 const requestedUrl = window.location.href.split('/').pop()
 

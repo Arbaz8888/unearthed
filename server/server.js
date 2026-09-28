@@ -11,10 +11,18 @@ const app = express()
 app.use('/public', express.static('./public'))
 app.use('/scripts', express.static('./public/scripts'))
 
-app.use('/gifts', giftsRouter)
+app.use('/api/gifts', giftsRouter)
+
+app.get('/gifts/:giftId', (req, res) => {
+  res.status(200).sendFile(path.resolve(__dirname, './public/gift.html'))
+})
 
 app.get('/', (req, res) => {
   res.status(200).send('<h1 style="text-align: center; margin-top: 50px;">UnEarthed API</h1>')
+})
+
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: `No route for ${req.method} ${req.originalUrl}` })
 })
 
 app.use((req, res) => {

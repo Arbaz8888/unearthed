@@ -1,46 +1,89 @@
-# WEB103 Project 1 - *UnEarthed*
+# WEB103 Project 2 - *UnEarthed*
 
 Submitted by: **Arbaz Attar**
 
-About this web app: **UnEarthed is a crowdsourced repo of great gift ideas for different kinds of people. Browse finds by audience and price point, then open any one of them for the full story - description, who submitted it, and when. Built with a Node/Express API serving the gift data and a vanilla HTML/CSS/JavaScript frontend bundled with Vite.**
+About this web app: **UnEarthed is a crowdsourced repo of great gift ideas for different kinds of people. Browse finds by audience and price point, search for a specific one, then open any find for the full story - description, who submitted it, and when. Built with a Node/Express API that reads from a Render PostgreSQL database and a vanilla HTML/CSS/JavaScript frontend bundled with Vite.**
 
-Time spent: **5** hours
+Time spent: **X** hours
 
 ## Required Features
 
-Functionality:
+The following **required** functionality is completed:
 
 <!-- Make sure to check off completed functionality below -->
 - [x] **The web app uses only HTML, CSS, and JavaScript without a frontend framework**
-- [x] **The web app displays a title**
-- [x] **The web app displays at least five unique list items, each with at least three displayed attributes (such as title, text, and image)**
-- [x] **The user can click on each item in the list to see a detailed view of it, including all database fields**
-  - [x] **Each detail view should be a unique endpoint, such as as `localhost:3000/bosses/crystalguardian` and `localhost:3000/mantislords`**
-- [x] **The web app serves an appropriate 404 page when no matching route is defined**
-- [x] **The web app is styled using Picocss**
+- [x] **The web app is connected to a PostgreSQL database, with an appropriately structured database table for the list items**
+  - [ ] **NOTE: Your walkthrough added to the README must include a view of your Render dashboard demonstrating that your Postgres database is available**
+  - [ ]  **NOTE: Your walkthrough added to the README must include a demonstration of your table contents. Use the psql command 'SELECT * FROM tablename;' to display your table contents.**
 
-- [x] The web app displays items in a unique format, such as cards rather than lists or animated list items
+The following **optional** features are implemented:
+
+- [x] The user can search for items by a specific attribute
 
 The following **additional** features are implemented:
 
-- [x] The Express server itself serves the 404 page on any unmatched route, so unknown URLs never fall back to Express's plain-text `Cannot GET /whatever`
-- [x] The gift detail page sets the browser tab title to the gift's name
-- [x] The card grid is responsive and reflows from three columns to one on narrow screens
-- [x] Cards lift on hover, and price point and audience render as pill-shaped tags on the detail view
-- [x] Gift images are served from the app itself rather than a third-party image host, so the site renders with no external dependencies
+- [x] The detail page fetches only its own row (`GET /api/gifts/:giftId`) instead of downloading every gift and filtering in the browser
+- [x] The API answers with a JSON 404 for a gift id that isn't in the table and a JSON 400 for an id that isn't a number; the detail page shows a not-found message for both
+- [x] Unknown `/api/...` paths get a JSON 404, while unknown page URLs still get the styled 404 page
+- [x] A results count under the search box ("3 finds for “$$”"), and clearing the box brings every gift back without a reload
+- [x] `npm run reset` drops, recreates and reseeds the table from `server/data/gifts.js` in one command
 
 ## Video Walkthrough
 
-https://github.com/user-attachments/assets/fca25e2a-85e7-493f-a607-8694b7a7ad75
+Here's a walkthrough of implemented required features:
+
+<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+<!-- Replace this with whatever GIF tool you used! -->
+GIF created with ...  GIF tool here
+<!-- Recommended tools:
+[Kap](https://getkap.co/) for macOS
+[ScreenToGif](https://www.screentogif.com/) for Windows
+[peek](https://github.com/phw/peek) for Linux. -->
 
 ## Notes
 
-A few things that took real debugging:
+**Setting up the database**
 
-- **The stylesheet had to live in `client/public/`, not the client root.** Vite bundles root-level files and renames them with a content hash on every build (`index-CsUDhMuy.css`). `gift.html` and `404.html` are hand-written pages Vite never processes, so they can't know that hash. Files in `public/` are copied through untouched, which gives every page a stable `/style.css` to point at.
-- **Card images silently failed while the detail-page image worked.** The cards set the image through a CSS `background-image: url(...)`, and the image URLs contained commas and a query string, which broke the unquoted `url()`. Wrapping the value in quotes fixed the parsing — but the images still didn't appear, which turned out to be a second, unrelated problem.
-- **The third-party image host was rate-limiting eight simultaneous card requests.** One image loaded fine in isolation; eight at once came back empty. Downloading the images into `client/public/images/` removed the dependency entirely.
-- **`npm run build` is not optional during development.** The dev server renders the home page from source, but the gift detail and 404 pages are served by Express out of `server/public`, which only exists after a build. Forgetting the build step makes "Read More" look broken.
+1. On [Render](https://dashboard.render.com), choose **New → PostgreSQL**, give it a name, pick the free instance, and wait until its status reads **Available**.
+2. Open the database's **Connections** panel and copy the username, password, external hostname, port and database name.
+3. Copy `server/.env.example` to `server/.env` and paste those values in. `server/.env` is git-ignored, so the password never reaches GitHub.
+4. Create and seed the table:
+
+```bash
+cd server
+npm install
+npm run reset      # drops the gifts table if it exists, recreates it, inserts the 8 gifts
+```
+
+5. To see the rows the way the grader wants, paste Render's **PSQL Command** from the same Connections panel into a terminal, then run:
+
+```sql
+SELECT * FROM gifts;
+```
+
+**The table**
+
+```sql
+CREATE TABLE gifts (
+  id            SERIAL PRIMARY KEY,
+  name          VARCHAR(255) NOT NULL,
+  price_point   VARCHAR(10)  NOT NULL,   -- '$', '$$' or '$$$'
+  audience      VARCHAR(100) NOT NULL,
+  image         VARCHAR(255) NOT NULL,   -- path under /images
+  description   TEXT         NOT NULL,
+  submitted_by  VARCHAR(100) NOT NULL,
+  submitted_on  DATE         NOT NULL
+);
+```
+
+**Things that took some working out**
+
+- **Column names vs. the frontend.** Postgres convention is `snake_case` (`price_point`), but the Part 1 frontend reads `gift.pricePoint`. Rather than touch every script, the SELECT in `server/controllers/gifts.js` renames columns on the way out (`price_point AS "pricePoint"`). The frontend never noticed the database swap.
+- **Dates came back as timestamps.** A `DATE` column reaches JavaScript as a `Date` object and serialises to `2025-11-02T00:00:00.000Z`. `TO_CHAR(submitted_on, 'YYYY-MM-DD')` in the query keeps the plain date string the page already displayed.
+- **SSL on Render, no SSL locally.** Render's Postgres only accepts SSL connections; a database on your own machine doesn't speak SSL at all. `server/config/database.js` turns SSL on unless `PGHOST` is `localhost`, so the same code works in both places.
+- **Two routes wanted `/gifts/:id`.** Part 1 used that URL for the detail *page*. The JSON API now lives under `/api/gifts`, so `/gifts/3` still serves `gift.html` and `/api/gifts/3` serves the row. Vite's dev proxy forwards both prefixes to Express.
+- **Search uses a parameterised query.** The search term goes in as `$1`, never pasted into the SQL string, so a search for `'; DROP TABLE gifts;` is just a search that finds nothing.
 
 ## Running it
 
@@ -50,6 +93,7 @@ Two terminals.
 # terminal 1 — API on http://localhost:3001
 cd server
 npm install
+npm run reset      # only needed the first time, or to reseed
 npm start
 
 # terminal 2 — frontend on http://localhost:5173
@@ -62,9 +106,11 @@ npm run dev
 | Route | What it does |
 | --- | --- |
 | `GET /` | API banner |
-| `GET /gifts` | all gifts, as JSON |
+| `GET /api/gifts` | all gifts, as JSON |
+| `GET /api/gifts?search=term` | gifts whose name, audience or description contains `term`, or whose price point equals it |
+| `GET /api/gifts/:giftId` | one gift as JSON, or a JSON 404 |
 | `GET /gifts/:giftId` | serves the gift detail page |
-| anything else | serves the 404 page |
+| anything else | the 404 page (JSON under `/api`) |
 
 ## License
 
